@@ -1,9 +1,11 @@
 import { useQuery } from '@apollo/client'
 import { Table, Tag } from 'antd'
+import ModalCreateTicket from 'components/Modal'
 
 //import * as S from './styles'
 
 import { QUERY_ALL_TICKETS } from 'components/graphql/queries/tickets'
+import { useState } from 'react'
 
 const columns = [
   {
@@ -58,10 +60,26 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
-    render: function dislplay() {
+    render: function Dislplay(data: dataFilteredProps) {
+      const [modalOpen, setModalOpen] = useState(false)
+      console.log('sssssddd', data)
+      const setmodal = () => {
+        setModalOpen(!modalOpen)
+      }
       return (
         <span>
-          <a>Answer</a>
+          <a
+            onClick={() => {
+              setModalOpen(!modalOpen)
+            }}
+          >
+            Answer
+          </a>
+          <ModalCreateTicket
+            data={data}
+            setmodal={setmodal}
+            statemodal={modalOpen}
+          />
         </span>
       )
     }
@@ -91,6 +109,15 @@ export type TicketProps = {
     name: string
   }
 }
+
+export type dataFilteredProps = {
+  key: number
+  Subject: string
+  Customer: string
+  tags: string
+  status: string
+  content: string
+}
 const TicketTable = () => {
   const { data, loading } = useQuery(QUERY_ALL_TICKETS)
 
@@ -99,12 +126,13 @@ const TicketTable = () => {
   }
 
   const dataFiltered = data.getTickets.map((ticket: TicketProps) => {
-    const datafiltr = {
+    const datafiltr: dataFilteredProps = {
       key: ticket.id,
       Subject: ticket.subject,
       Customer: ticket.client.name,
       tags: ticket.tags.name,
-      status: ticket.status
+      status: ticket.status,
+      content: ticket.content
     }
     return datafiltr
   })
