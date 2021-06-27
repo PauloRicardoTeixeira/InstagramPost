@@ -3,13 +3,17 @@ import Heading from 'components/Heading'
 import TicketTable from 'components/TicketTable'
 import * as S from './styles'
 
-const MainTicketTemplate = () => (
+export type TikectsTittle = {
+  title: string
+}
+
+const MainTicketTemplate = ({ title }: TikectsTittle) => (
   <S.Wrapper>
     <Heading color="black" lineColor="secondary" lineBottom>
-      Ticket Manager
+      {title}
     </Heading>
     <S.ButtonWrapper>
-      <Button size="small"> New Ticket</Button>
+      {title === 'Call Someone' && <Button size="small"> New Ticket</Button>}
     </S.ButtonWrapper>
     <h1>My Tickets</h1>
     <S.TiketsWrapper>

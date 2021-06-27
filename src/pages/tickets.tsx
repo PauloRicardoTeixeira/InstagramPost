@@ -4,7 +4,7 @@ import LayoutDashboard from 'components/Template'
 export default function Tiket() {
   return (
     <LayoutDashboard>
-      <MainTicketTemplate />
+      <MainTicketTemplate title={'Help Someone'} />
     </LayoutDashboard>
   )
 }
